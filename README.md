@@ -11,5 +11,5 @@ Update the credentials in `credentials.rb`. Set `CLIENT_ID` and `CLIENT_SECRET` 
 
 ## Run
 ```bash
-> bin/export <poi or ssf or both> <query_id: id or quid> [<apply formatting: true or false>] [<dev mode: true or false>]
+> bin/export <old or new or both or test> <query_id: id or quid> <apply formatting: true or false> <apply vis: true or false> <dev mode: true or false>
 ```
