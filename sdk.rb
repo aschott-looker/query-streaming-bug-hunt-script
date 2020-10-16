@@ -13,6 +13,3 @@ module SDK
     )
   end
 end
-
-
-
