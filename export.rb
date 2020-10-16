@@ -4,11 +4,11 @@ require 'digest'
 def get_args_or_exit!()
   # really stupid arg parsing
   if ARGV.length < 2 
-    puts "usage: bundle exec ruby export.rb <poi or ssf or both> <query_id: id or quid> [<apply formatting: true or false>] [<dev mode: true or false>]"
+    puts "usage: bundle exec ruby export.rb <old or new or both or test> <query_id: id or quid> <apply formatting: true or false> <apply vis: true or false> <dev mode: true or false>"
     exit(1)
   else
-    unless ["poi", "ssf", "both", "test"].include?(ARGV[0])
-      puts "first argument must be poi or ssf or both"
+    unless ["old", "new", "both", "test"].include?(ARGV[0])
+      puts "first argument must be old or new or both or test"
       exit(1)
     end
 
@@ -54,7 +54,7 @@ def print_query_details(query)
 end
 
 
-type, qid, apply_formatting, dev_mode = get_args_or_exit!()
+type, qid, apply_formatting, apply_vis, dev_mode = get_args_or_exit!()
 sdk = SDK.create_authenticated_sdk
 sdk.alive
 current_user = sdk.me
@@ -73,30 +73,30 @@ end
 
 print_query_details(query)
 old_data = ""
-if type == "poi" || type == "both" || type == "test"
-  sdk.run_query(query.id, "csv", {cache: false, apply_formatting: apply_formatting, fast_value_formatter: true}) do |out_chunk|
+if type == "old" || type == "both" || type == "test"
+  sdk.run_query(query.id, "csv", {cache: false, apply_formatting: apply_formatting, apply_vis: apply_vis}) do |out_chunk|
     old_data << out_chunk
   end
   if type != "test"
-    puts "\n------ new formatter data below ---------"
+    puts "\n------ old pipeline data below ---------"
     puts old_data
-    puts "------ new formatter data above ---------\n"
+    puts "------ old pipeline data above ---------\n"
   end
 end
 
 new_data = ""
-if type == "ssf" || type == "both" || type == "test"
-  sdk.run_query(query.id, "csv", {cache: false, apply_formatting: apply_formatting}) do |out_chunk|
+if type == "new" || type == "both" || type == "test"
+  sdk.download_query(query.id, "csv", {cache: false, apply_formatting: apply_formatting, apply_vis: apply_vis}) do |out_chunk|
     new_data << out_chunk
   end
   if type != "test"
-    puts "\n------ old formatter data below ---------"
+    puts "\n------ new pipeline data below ---------"
     puts new_data
-    puts "------ old formatter data above ---------\n"
+    puts "------ new pipeline data above ---------\n"
   end
 end
 
-if type == "both" || type == "test"
+if type == "test"
   new_digest = Digest::MD5.hexdigest(new_data)
   old_digest = Digest::MD5.hexdigest(old_data)
 
