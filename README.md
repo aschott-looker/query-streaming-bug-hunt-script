@@ -4,7 +4,7 @@ This repository contains a script used for bug hunts to test the query streaming
 ## Setup
 Update the credentials in `credentials.rb`. Set `CLIENT_ID` and `CLIENT_SECRET` to your client id and secret for the user you want to test on master.
 
-## Install Deps
+## Install Dependencies
 ```bash
 > bundle install
 ```
