@@ -16,6 +16,6 @@ Update the credentials in `credentials.rb`. Set `CLIENT_ID` and `CLIENT_SECRET` 
 
 ## Example
 ```bash
-# Run query with id 9vyXupTeatORbyUUI7ot2m with value formatting disabled, vis formatting enabled and dev mode off.
-> bin/export 9vyXupTeatORbyUUI7ot2m false true true
+# Run query with id 9vyXupTeatORbyUUI7ot2m with value formatting disabled, vis formatting enabled and dev mode off against both the old and new pipelines.
+> bin/export both 9vyXupTeatORbyUUI7ot2m false true true
 ```
